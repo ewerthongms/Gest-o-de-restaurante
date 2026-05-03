@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="./style2.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=DynaPuff:wght@400..700&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap"
+        rel="stylesheet">
+    <title>Cardapio</title>
+</head>
+
+<body>
+    <wrapper id="pai">
+        <nav id="browser">
+            <button class="menu-buttons" type="button" id="menu-lateral">☰</button>
+            <input id="researcher" type="search" placeholder="Pesquisar">
+        </nav>
+        <div id="overlay"></div>
+        <section id="div-img">
+            <img src="./img/A preferida.jpg" id="Logo-img" alt="logo">
+        </section>
+        <main id="menu">
+            <h1 class="title1">Cardápio</h1>
+            <div class="buttons-div">
+                <button class="menu-buttons" onclick="scrollParaSecao('hamburguers')">Hambúrguers</button>
+                <button class="menu-buttons" onclick="scrollParaSecao('pratos')">Pratos</button>
+                <button class="menu-buttons" onclick="scrollParaSecao('pasteis')">Pasteis</button>
+                <button class="menu-buttons" onclick="scrollParaSecao('saladas')">Saladas</button>
+                <button class="menu-buttons" onclick="scrollParaSecao('espetos')">Espetos</button>
+                <button class="menu-buttons" onclick="scrollParaSecao('hotdog')">Hot Dog</button>
+                <button class="menu-buttons" onclick="scrollParaSecao('especial')">Especial Da Casa</button>
+                <button class="menu-buttons" onclick="scrollParaSecao('sucos')">Sucos</button>
+                <button class="menu-buttons" onclick="scrollParaSecao('vinhos')">Vinhos</button>
+                <button class="menu-buttons" onclick="scrollParaSecao('refrigerantes')">Refrigerantes</button>
+            </div>
+        </main>
+
+        <section id="img-menu">
+
+            <div class="caixa" id="hamburguers">
+                <img src="./img/hamburguer.webp" alt="Hambúrguer" id="comidas">
+                <h2>Hambúrguer Clássico</h2>
+                <p>R$ 25,00</p>
+                <select class="options-card">
+                    <option value="hamburguer 1">X-bacon</option>
+                    <option value="hamburguer 1">X-salada</option>
+                    <option value="hamburguer 1">X-egg</option>
+                </select>
+            </div>
+
+            <div class="caixa" id="pratos">
+                <img src="./img/prato.avif" alt="Prato" id="comidas">
+                <h2>Prato do Dia</h2>
+                <p>R$ 35,00</p>
+                <select class="options-card">
+                    <option value="hamburguer 1">Mineiro</option>
+                    <option value="hamburguer 1">Arroz Carreteiro</option>
+                    <option value="hamburguer 1">Moda da Casa</option>
+                </select>
+            </div>
+
+            <div class="caixa" id="pasteis">
+                <img src="./img/pastel.jpg" alt="Pastel" id="comidas">
+                <h2>Pastel de Carne</h2>
+                <p>R$ 12,00</p>
+                <select class="options-card">
+                    <option value="hamburguer 1">frango Catupiry</option>
+                    <option value="hamburguer 1">Costela</option>
+                    <option value="hamburguer 1">Carne Seca</option>
+                </select>
+            </div>
+
+            <div class="caixa" id="saladas">
+                <img src="./img/salada.jpg" alt="Salada" id="comidas">
+                <h2>Salada Mista</h2>
+                <p>R$ 18,00</p>
+                <select class="options-card">
+                    <option value="hamburguer 1">Salada de frutas</option>
+                    <option value="hamburguer 1">Folhas Verdes</option>
+                    <option value="hamburguer 1">Grãos</option>
+                </select>
+            </div>
+
+            <div class="caixa" id="espetos">
+                <img src="./img/espeto.jpg" alt="Espeto" id="comidas">
+                <h2>Espetos</h2>
+                <p>R$ 15,00</p>
+                <select class="options-card">
+                    <option value="hamburguer 1">Cafta</option>
+                    <option value="hamburguer 1">Carne, Queijo, Bacon</option>
+                    <option value="hamburguer 1">Coração de Galinha</option>
+                </select>
+            </div>
+
+            <div class="caixa" id="hotdog">
+                <img src="./img/hotdog.avif" alt="Hot Dog" id="comidas">
+                <h2>Hot Dog Especial</h2>
+                <p>R$ 20,00</p>
+                <select class="options-card">
+                    <option value="hamburguer 1">Hotdog Simples</option>
+                    <option value="hamburguer 1">Hotdog Duplo</option>
+                    <option value="hamburguer 1">Hotdog Especial</option>
+                </select>
+            </div>
+
+            <div class="caixa" id="especial">
+                <img src="./img/especial.avif" alt="Especial Da Casa" id="comidas">
+                <h2>Especial Da Casa</h2>
+                <p>R$ 45,00</p>
+                <select class="options-card">
+                    <option value="hamburguer 1">A moda da casa</option>
+                    <option value="hamburguer 1">Feijoada</option>
+                    <option value="hamburguer 1">Lasanha</option>
+                </select>
+            </div>
+
+            <div class="caixa" id="sucos">
+                <img src="./img/suco.jpg" alt="Suco" id="comidas">
+                <h2>Suco Natural</h2>
+                <p>R$ 10,00</p>
+                <select class="options-card">
+                    <option value="hamburguer 1">Laranja</option>
+                    <option value="hamburguer 1">Goiaba</option>
+                    <option value="hamburguer 1">Morango</option>
+                </select>
+            </div>
+
+            <div class="caixa" id="vinhos">
+                <img src="./img/vinhos.jpg" alt="Vinho" id="comidas">
+                <h2>Vinho Tinto</h2>
+                <p>R$ 80,00</p>
+                <select class="options-card">
+                    <option value="hamburguer 1">Vinho Tinto</option>
+                    <option value="hamburguer 1">Vinho Branco</option>
+                    <option value="hamburguer 1">Vinho Rosé</option>
+                </select>
+            </div>
+
+            <div class="caixa" id="refrigerantes">
+                <img src="./img/refrigerantes.webp" alt="Refrigerante" id="comidas">
+                <h2>Refrigerante Lata</h2>
+                <p>R$ 7,00</p>
+                <select class="options-card">
+                    <option value="hamburguer 1">Coca-cola</option>
+                    <option value="hamburguer 1">Guaraná</option>
+                    <option value="hamburguer 1">Fanta</option>
+                </select>
+            </div>
+
+        </section>
+
+        </div>
+
+        <script>
+            function scrollParaSecao(id) {
+                document.getElementById(id).scrollIntoView({ behavior: 'smooth' });
+            }
+        </script>
+
+</body>
+
+</html>
+
+
+</wrapper>
+</body>
+
+</html>
