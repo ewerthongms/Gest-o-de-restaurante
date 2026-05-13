@@ -1,34 +1,140 @@
-<!DOCTYPE html>
-<html lang="en">
-
-<head>
+<html lang="pt-BR"><head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="./style2.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link
-        href="https://fonts.googleapis.com/css2?family=DynaPuff:wght@400..700&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap"
-        rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+    <link href="https://fonts.googleapis.com/css2?family=DynaPuff:wght@400..700&amp;family=Roboto:ital,wght@0,100..900;1,100..900&amp;display=swap" rel="stylesheet">
     <title>Cardapio</title>
+
+    <style>
+        /* ── Carrinho flutuante ── */
+        .carrinho {
+            position: fixed;
+            top: 1rem;
+            right: 1rem;
+            z-index: 999;
+            background: none;
+            border: none;
+            cursor: pointer;
+        }
+
+        .carrinho-img {
+            width: 48px;
+            height: 48px;
+            object-fit: contain;
+        }
+
+        /* ── Cards do cardápio ── */
+        .caixa img {
+            width: 100%;
+            height: 160px;
+            object-fit: cover;
+            border-radius: 8px;
+            background: #eee;
+        }
+
+        .preco {
+            font-weight: 700;
+        }
+
+        .options-card {
+            width: 100%;
+            padding: 0.45rem 0.6rem;
+            border-radius: 6px;
+            border: 1px solid #ccc;
+            font-family: inherit;
+            font-size: 0.9rem;
+            cursor: pointer;
+        }
+
+        .pedido-row {
+            display: flex;
+            gap: 0.5rem;
+            align-items: center;
+            margin-top: 0.3rem;
+        }
+
+        .qty-input {
+            width: 60px;
+            padding: 0.45rem 0.4rem;
+            border-radius: 6px;
+            border: 1px solid #ccc;
+            font-size: 0.9rem;
+            text-align: center;
+            font-family: inherit;
+        }
+
+        .btn-add {
+            flex: 1;
+            padding: 0.5rem 0.7rem;
+            border: none;
+            border-radius: 6px;
+            background: #e05c2a;
+            color: #fff;
+            font-family: inherit;
+            font-size: 0.88rem;
+            font-weight: 700;
+            letter-spacing: 0.04em;
+            text-transform: uppercase;
+            cursor: pointer;
+            transition: opacity 0.2s, transform 0.15s;
+        }
+
+        .btn-add:hover  { opacity: 0.87; transform: scale(1.03); }
+        .btn-add:active { transform: scale(0.97); }
+
+        /* ── Toast de confirmação ── */
+        #toast {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            background: #c9a84c;
+            color: #1a1209;
+            padding: 0.75rem 1.4rem;
+            border-radius: 10px;
+            font-weight: 700;
+            font-size: 0.95rem;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.25);
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.3s, transform 0.3s;
+            pointer-events: none;
+            z-index: 1000;
+        }
+        #toast.show { opacity: 1; transform: translateY(0); }
+    </style>
 </head>
 
 <body>
     <wrapper id="pai">
+
+        <!-- Carrinho flutuante -->
+       <button class="carrinho" id="carrinho-btn">
+    <img src="./img/comprar-online.png" alt="icone-carrinho" class="carrinho-img">
+    <span class="carrinho-label">Carrinho</span>
+    <span class="carrinho-badge" id="carrinho-count">0</span>
+</button>
+        <!-- Navbar -->
         <nav id="browser">
             <button class="menu-buttons" type="button" id="menu-lateral">☰</button>
             <input id="researcher" type="search" placeholder="Pesquisar">
         </nav>
+
         <div id="overlay"></div>
+
+        <!-- Logo -->
         <section id="div-img">
             <img src="./img/A preferida.jpg" id="Logo-img" alt="logo">
         </section>
+
+        <!-- Menu de navegação do cardápio -->
         <main id="menu">
             <h1 class="title1">Cardápio</h1>
             <div class="buttons-div">
                 <button class="menu-buttons" onclick="scrollParaSecao('hamburguers')">Hambúrguers</button>
                 <button class="menu-buttons" onclick="scrollParaSecao('pratos')">Pratos</button>
-                <button class="menu-buttons" onclick="scrollParaSecao('pasteis')">Pasteis</button>
+                <button class="menu-buttons" onclick="scrollParaSecao('pasteis')">Pastéis</button>
                 <button class="menu-buttons" onclick="scrollParaSecao('saladas')">Saladas</button>
                 <button class="menu-buttons" onclick="scrollParaSecao('espetos')">Espetos</button>
                 <button class="menu-buttons" onclick="scrollParaSecao('hotdog')">Hot Dog</button>
@@ -39,134 +145,169 @@
             </div>
         </main>
 
+        <!-- Cards do cardápio -->
         <section id="img-menu">
 
             <div class="caixa" id="hamburguers">
-                <img src="./img/hamburguer.webp" alt="Hambúrguer" id="comidas">
+                <img src="./img/hamburguer.webp" alt="Hambúrguer">
                 <h2>Hambúrguer Clássico</h2>
-                <p>R$ 25,00</p>
+                <p class="preco">R$ 27,90</p>
                 <select class="options-card">
-                    <option value="hamburguer 1">X-bacon</option>
-                    <option value="hamburguer 1">X-salada</option>
-                    <option value="hamburguer 1">X-egg</option>
+                    <option value="x-bacon">X-Bacon — R$ 27,90</option>
+                    <option value="x-salada">X-Salada — R$ 22,90</option>
+                    <option value="x-egg">X-Egg — R$ 24,90</option>
                 </select>
+                <div class="pedido-row">
+                    <input type="number" class="qty-input" value="1" min="1" max="99">
+                    <button class="btn-add" onclick="addPedido(this)">+ Adicionar</button>
+                </div>
             </div>
 
             <div class="caixa" id="pratos">
-                <img src="./img/prato.avif" alt="Prato" id="comidas">
+                <img src="./img/prato.avif" alt="Prato">
                 <h2>Prato do Dia</h2>
-                <p>R$ 35,00</p>
+                <p class="preco">R$ 38,50</p>
                 <select class="options-card">
-                    <option value="hamburguer 1">Mineiro</option>
-                    <option value="hamburguer 1">Arroz Carreteiro</option>
-                    <option value="hamburguer 1">Moda da Casa</option>
+                    <option value="mineiro">Mineiro — R$ 38,50</option>
+                    <option value="arroz-carreteiro">Arroz Carreteiro — R$ 36,00</option>
+                    <option value="moda-da-casa">Moda da Casa — R$ 40,00</option>
                 </select>
+                <div class="pedido-row">
+                    <input type="number" class="qty-input" value="1" min="1" max="99">
+                    <button class="btn-add" onclick="addPedido(this)">+ Adicionar</button>
+                </div>
             </div>
 
             <div class="caixa" id="pasteis">
-                <img src="./img/pastel.jpg" alt="Pastel" id="comidas">
+                <img src="./img/pastel.jpg" alt="Pastel">
                 <h2>Pastel de Carne</h2>
-                <p>R$ 12,00</p>
+                <p class="preco">R$ 13,50</p>
                 <select class="options-card">
-                    <option value="hamburguer 1">frango Catupiry</option>
-                    <option value="hamburguer 1">Costela</option>
-                    <option value="hamburguer 1">Carne Seca</option>
+                    <option value="frango-catupiry">Frango Catupiry — R$ 13,50</option>
+                    <option value="costela">Costela — R$ 15,00</option>
+                    <option value="carne-seca">Carne Seca — R$ 14,50</option>
                 </select>
+                <div class="pedido-row">
+                    <input type="number" class="qty-input" value="1" min="1" max="99">
+                    <button class="btn-add" onclick="addPedido(this)">+ Adicionar</button>
+                </div>
             </div>
 
             <div class="caixa" id="saladas">
-                <img src="./img/salada.jpg" alt="Salada" id="comidas">
+                <img src="./img/salada.jpg" alt="Salada">
                 <h2>Salada Mista</h2>
-                <p>R$ 18,00</p>
+                <p class="preco">R$ 19,90</p>
                 <select class="options-card">
-                    <option value="hamburguer 1">Salada de frutas</option>
-                    <option value="hamburguer 1">Folhas Verdes</option>
-                    <option value="hamburguer 1">Grãos</option>
+                    <option value="salada-de-frutas">Salada de Frutas — R$ 19,90</option>
+                    <option value="folhas-verdes">Folhas Verdes — R$ 17,50</option>
+                    <option value="graos">Grãos — R$ 21,00</option>
                 </select>
+                <div class="pedido-row">
+                    <input type="number" class="qty-input" value="1" min="1" max="99">
+                    <button class="btn-add" onclick="addPedido(this)">+ Adicionar</button>
+                </div>
             </div>
 
             <div class="caixa" id="espetos">
-                <img src="./img/espeto.jpg" alt="Espeto" id="comidas">
+                <img src="./img/espeto.jpg" alt="Espeto">
                 <h2>Espetos</h2>
-                <p>R$ 15,00</p>
+                <p class="preco">R$ 16,00</p>
                 <select class="options-card">
-                    <option value="hamburguer 1">Cafta</option>
-                    <option value="hamburguer 1">Carne, Queijo, Bacon</option>
-                    <option value="hamburguer 1">Coração de Galinha</option>
+                    <option value="kafta">Kafta — R$ 16,00</option>
+                    <option value="carne-queijo-bacon">Carne, Queijo e Bacon — R$ 18,50</option>
+                    <option value="coracao-galinha">Coração de Galinha — R$ 14,00</option>
                 </select>
+                <div class="pedido-row">
+                    <input type="number" class="qty-input" value="1" min="1" max="99">
+                    <button class="btn-add" onclick="addPedido(this)">+ Adicionar</button>
+                </div>
             </div>
 
             <div class="caixa" id="hotdog">
-                <img src="./img/hotdog.avif" alt="Hot Dog" id="comidas">
+                <img src="./img/hotdog.avif" alt="Hot Dog">
                 <h2>Hot Dog Especial</h2>
-                <p>R$ 20,00</p>
+                <p class="preco">R$ 21,90</p>
                 <select class="options-card">
-                    <option value="hamburguer 1">Hotdog Simples</option>
-                    <option value="hamburguer 1">Hotdog Duplo</option>
-                    <option value="hamburguer 1">Hotdog Especial</option>
+                    <option value="hotdog-simples">Hotdog Simples — R$ 21,90</option>
+                    <option value="hotdog-duplo">Hotdog Duplo — R$ 26,90</option>
+                    <option value="hotdog-especial">Hotdog Especial — R$ 31,90</option>
                 </select>
+                <div class="pedido-row">
+                    <input type="number" class="qty-input" value="1" min="1" max="99">
+                    <button class="btn-add" onclick="addPedido(this)">+ Adicionar</button>
+                </div>
             </div>
 
             <div class="caixa" id="especial">
-                <img src="./img/especial.avif" alt="Especial Da Casa" id="comidas">
+                <img src="./img/especial.avif" alt="Especial Da Casa">
                 <h2>Especial Da Casa</h2>
-                <p>R$ 45,00</p>
+                <p class="preco">R$ 47,00</p>
                 <select class="options-card">
-                    <option value="hamburguer 1">A moda da casa</option>
-                    <option value="hamburguer 1">Feijoada</option>
-                    <option value="hamburguer 1">Lasanha</option>
+                    <option value="moda-da-casa">A Moda da Casa — R$ 47,00</option>
+                    <option value="feijoada">Feijoada — R$ 44,90</option>
+                    <option value="lasanha">Lasanha — R$ 42,50</option>
                 </select>
+                <div class="pedido-row">
+                    <input type="number" class="qty-input" value="1" min="1" max="99">
+                    <button class="btn-add" onclick="addPedido(this)">+ Adicionar</button>
+                </div>
             </div>
 
             <div class="caixa" id="sucos">
-                <img src="./img/suco.jpg" alt="Suco" id="comidas">
+                <img src="./img/suco.jpg" alt="Suco">
                 <h2>Suco Natural</h2>
-                <p>R$ 10,00</p>
+                <p class="preco">R$ 11,00</p>
                 <select class="options-card">
-                    <option value="hamburguer 1">Laranja</option>
-                    <option value="hamburguer 1">Goiaba</option>
-                    <option value="hamburguer 1">Morango</option>
+                    <option value="laranja">Laranja — R$ 11,00</option>
+                    <option value="goiaba">Goiaba — R$ 11,00</option>
+                    <option value="morango">Morango — R$ 12,50</option>
                 </select>
+                <div class="pedido-row">
+                    <input type="number" class="qty-input" value="1" min="1" max="99">
+                    <button class="btn-add" onclick="addPedido(this)">+ Adicionar</button>
+                </div>
             </div>
 
             <div class="caixa" id="vinhos">
-                <img src="./img/vinhos.jpg" alt="Vinho" id="comidas">
+                <img src="./img/vinhos.jpg" alt="Vinho">
                 <h2>Vinho Tinto</h2>
-                <p>R$ 80,00</p>
+                <p class="preco">R$ 84,90</p>
                 <select class="options-card">
-                    <option value="hamburguer 1">Vinho Tinto</option>
-                    <option value="hamburguer 1">Vinho Branco</option>
-                    <option value="hamburguer 1">Vinho Rosé</option>
+                    <option value="vinho-tinto">Vinho Tinto — R$ 84,90</option>
+                    <option value="vinho-branco">Vinho Branco — R$ 79,90</option>
+                    <option value="vinho-rose">Vinho Rosé — R$ 82,00</option>
                 </select>
+                <div class="pedido-row">
+                    <input type="number" class="qty-input" value="1" min="1" max="99">
+                    <button class="btn-add" onclick="addPedido(this)">+ Adicionar</button>
+                </div>
             </div>
 
             <div class="caixa" id="refrigerantes">
-                <img src="./img/refrigerantes.webp" alt="Refrigerante" id="comidas">
+                <img src="./img/refrigerantes.webp" alt="Refrigerante">
                 <h2>Refrigerante Lata</h2>
-                <p>R$ 7,00</p>
+                <p class="preco">R$ 7,50</p>
                 <select class="options-card">
-                    <option value="hamburguer 1">Coca-cola</option>
-                    <option value="hamburguer 1">Guaraná</option>
-                    <option value="hamburguer 1">Fanta</option>
+                    <option value="coca-cola">Coca-Cola — R$ 7,50</option>
+                    <option value="guarana">Guaraná — R$ 6,50</option>
+                    <option value="fanta">Fanta — R$ 6,50</option>
                 </select>
+                <div class="pedido-row">
+                    <input type="number" class="qty-input" value="1" min="1" max="99">
+                    <button class="btn-add" onclick="addPedido(this)">+ Adicionar</button>
+                </div>
             </div>
 
         </section>
 
-        </div>
+    </wrapper>
 
-        <script>
-            function scrollParaSecao(id) {
-                document.getElementById(id).scrollIntoView({ behavior: 'smooth' });
-            }
-        </script>
+    <!-- Toast de confirmação -->
+    <div id="toast"></div>
 
-</body>
-
-</html>
+    <script src="./script.js"></script>
 
 
-</wrapper>
-</body>
 
-</html>
+
+</body></html>

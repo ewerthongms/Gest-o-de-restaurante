@@ -1,34 +1,44 @@
-const pedidos = []
+   function scrollParaSecao(id) {
+            document.getElementById(id).scrollIntoView({ behavior: 'smooth' });
+        }
 
-function addPedido() {
-  const mesa = document.getElementById("mesa").value
-  const produto = document.getElementById("produto").value
+        function addPedido(btn) {
+            const caixa = btn.closest('.caixa');
+            const select = caixa.querySelector('.options-card');
+            const qty = caixa.querySelector('.qty-input').value;
+            const item = select.options[select.selectedIndex].text.split(' — ')[0];
 
-  if (!mesa || !produto) {
-    alert("Preencha tudo")
-    return
-  }
+            const toast = document.getElementById('toast');
+            toast.textContent = '✅ ' + qty + 'x ' + item + ' adicionado!';
+            toast.classList.add('show');
+            clearTimeout(toast._timer);
+            toast._timer = setTimeout(() => toast.classList.remove('show'), 2500);
+        }
 
-  pedidos.push({ mesa, produto })
-  renderPedidos()
-}
 
-function renderPedidos() {
-  const lista = document.getElementById("pedidos")
-  lista.innerHTML = ""
+        let totalItens = 0;
 
-  pedidos.forEach((p, index) => {
-    const li = document.createElement("li")
-    li.textContent = `Mesa ${p.mesa}: ${p.produto}`
+function addPedido(btn) {
+    const caixa = btn.closest('.caixa');
+    const select = caixa.querySelector('.options-card');
+    const qty = parseInt(caixa.querySelector('.qty-input').value) || 1;
+    const item = select.options[select.selectedIndex].text.split(' — ')[0];
 
-    const btn = document.createElement("button")
-    btn.textContent = "Finalizar"
-    btn.onclick = () => {
-      pedidos.splice(index, 1)
-      renderPedidos()
+    // Atualiza contagem do carrinho
+    totalItens += qty;
+    const badge = document.getElementById('carrinho-count');
+    const carrinhoBtn = document.getElementById('carrinho-btn');
+
+    badge.textContent = totalItens;
+
+    if (!carrinhoBtn.classList.contains('visivel')) {
+        carrinhoBtn.classList.add('visivel');
     }
 
-    li.appendChild(btn)
-    lista.appendChild(li)
-  })
+    // Toast de confirmação
+    const toast = document.getElementById('toast');
+    toast.textContent = '✅ ' + qty + 'x ' + item + ' adicionado!';
+    toast.classList.add('show');
+    clearTimeout(toast._timer);
+    toast._timer = setTimeout(() => toast.classList.remove('show'), 2500);
 }

@@ -80,6 +80,68 @@
     font-size: 20px;
     margin-bottom: 8px;
 }
+.carrinho {
+
+    position: fixed;
+    bottom: 1.5rem;
+    right: 1.5rem;
+    z-index: 999;
+    background: #e05c2a;
+    border: none;
+    border-radius: 50px;
+    cursor: pointer;
+    display: none; /* escondido por padrão */
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.6rem 1rem 0.6rem 0.75rem;
+    box-shadow: 0 4px 16px rgba(0,0,0,0.25);
+    transition: transform 0.2s, opacity 0.3s;
+    animation: slideUp 0.35s ease;
+}
+
+.carrinho.visivel {
+    display: flex;
+    height: 50px;
+    top: 400px;
+    background-color: #e05c2a;
+    
+}
+
+.carrinho:hover {
+    transform: scale(1.05);
+}
+
+.carrinho-img {
+    width: 26px;
+    height: 26px;
+    object-fit: contain;
+    filter: brightness(0) invert(1);
+}
+
+.carrinho-badge {
+    background: #fff;
+    color: #e05c2a;
+    font-family: 'Lato', sans-serif;
+    font-size: 0.82rem;
+    font-weight: 700;
+    border-radius: 50px;
+    padding: 2px 8px;
+    min-width: 22px;
+    text-align: center;
+}
+
+.carrinho-label {
+    color: #fff;
+    font-family: 'Lato', sans-serif;
+    font-size: 0.85rem;
+    font-weight: 700;
+    letter-spacing: 0.03em;
+}
+
+@keyframes slideUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to   { opacity: 1; transform: translateY(0); }
+}
 
 .buttons-div {
     display: flex;
@@ -151,7 +213,7 @@
 }
 
 /* === DESKTOP (acima de 768px) === */
-@media (min-width: 768px) {
+@media (max-width: 768px) {
 
     #div-img { height: 300px; }
 
@@ -165,6 +227,15 @@
     }
 
     .caixa {
-        width: calc(33% - 20px);
+       display: flex;
+       
+
+    }
+
+    #comidas{
+        position: relative;
+        margin: 0 0 0 10px;
+        width: 50%;
+        height: 50%;
     }
 }
