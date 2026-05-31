@@ -92,7 +92,6 @@
     cursor: pointer;
     display: none; /* escondido por padrão */
     align-items: center;
-    gap: 0.5rem;
     padding: 0.6rem 1rem 0.6rem 0.75rem;
     box-shadow: 0 4px 16px rgba(0,0,0,0.25);
     transition: transform 0.2s, opacity 0.3s;
@@ -101,10 +100,11 @@
 
 .carrinho.visivel {
     display: flex;
-    height: 50px;
-    top: 400px;
+    height: 70px;
+    top: 700px;
     background-color: #e05c2a;
-    
+    width: 70px;
+    padding: 0px;
 }
 
 .carrinho:hover {
@@ -112,7 +112,7 @@
 }
 
 .carrinho-img {
-    width: 26px;
+    width: 58px;
     height: 26px;
     object-fit: contain;
     filter: brightness(0) invert(1);
@@ -131,7 +131,7 @@
 }
 
 .carrinho-label {
-    color: #fff;
+    color: #ffffff8e;
     font-family: 'Lato', sans-serif;
     font-size: 0.85rem;
     font-weight: 700;
