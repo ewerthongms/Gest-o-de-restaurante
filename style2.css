@@ -81,7 +81,6 @@
     margin-bottom: 8px;
 }
 .carrinho {
-
     position: fixed;
     bottom: 1.5rem;
     right: 1.5rem;
@@ -137,6 +136,10 @@
     font-weight: 700;
     letter-spacing: 0.03em;
 }
+.carrinho.dragging {
+    transition: none !important;
+    transform: scale(1.05);
+    cursor: grabbing;}
 
 @keyframes slideUp {
     from { opacity: 0; transform: translateY(20px); }
