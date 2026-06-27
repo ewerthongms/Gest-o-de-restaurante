@@ -1,0 +1,712 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Área de Pagamento</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Sora:wght@600;700&display=swap');
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg:        #1a1a1a;
+      --surface:   #242424;
+      --border:    #3a3a3a;
+      --accent:    #e05c2a;
+      --accent-lt: #f07d52;
+      --success:   #22c55e;
+      --text:      #f0eeeb;
+      --muted:     #8a8a8a;
+      --input-bg:  #1e1e1e;
+    }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 40px 16px 60px;
+    }
+
+    /* ── HEADER ── */
+    header {
+      width: 100%;
+      max-width: 900px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 36px;
+    }
+
+    header .logo {
+      font-family: 'Sora', sans-serif;
+      font-size: 1.35rem;
+      font-weight: 700;
+      color: var(--text);
+      letter-spacing: -0.5px;
+    }
+
+    header .logo span { color: var(--accent-lt); }
+
+    header .badge {
+      margin-left: auto;
+      font-size: 0.72rem;
+      font-weight: 600;
+      color: var(--success);
+      background: rgba(34,197,94,.12);
+      border: 1px solid rgba(34,197,94,.25);
+      border-radius: 20px;
+      padding: 4px 12px;
+      letter-spacing: .5px;
+    }
+
+    /* ── LAYOUT ── */
+    .checkout {
+      display: grid;
+      grid-template-columns: 1fr 380px;
+      gap: 24px;
+      width: 100%;
+      max-width: 900px;
+      align-items: start;
+    }
+
+    @media (max-width: 720px) {
+      .checkout { grid-template-columns: 1fr; }
+    }
+
+    /* ── CARD BASE ── */
+    .card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 28px 24px;
+    }
+
+    .card-title {
+      font-family: 'Sora', sans-serif;
+      font-size: 1rem;
+      font-weight: 700;
+      color: var(--text);
+      margin-bottom: 20px;
+      padding-bottom: 16px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    /* ── MÉTODO DE PAGAMENTO ── */
+    .methods {
+      display: flex;
+      gap: 10px;
+      margin-bottom: 24px;
+    }
+
+    .method-btn {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 6px;
+      padding: 14px 10px;
+      border: 2px solid var(--border);
+      border-radius: 12px;
+      cursor: pointer;
+      transition: border-color 0.2s, background 0.2s;
+      background: var(--input-bg);
+    }
+
+    .method-btn input[type="radio"] { display: none; }
+
+    .method-btn:has(input:checked) {
+      border-color: var(--accent);
+      background: rgba(224,92,42,.08);
+    }
+
+    .method-btn svg { width: 28px; height: 28px; }
+
+    .method-btn span {
+      font-size: 0.72rem;
+      font-weight: 600;
+      color: var(--muted);
+      letter-spacing: .3px;
+    }
+
+    .method-btn:has(input:checked) span { color: var(--accent-lt); }
+
+    /* ── FORMULÁRIO ── */
+    .form-group {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      margin-bottom: 16px;
+    }
+
+    .form-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+    }
+
+    label {
+      font-size: 0.76rem;
+      font-weight: 600;
+      color: var(--muted);
+      letter-spacing: .4px;
+      text-transform: uppercase;
+    }
+
+    input[type="text"],
+    input[type="email"],
+    select {
+      background: var(--input-bg);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      color: var(--text);
+      font-family: 'Inter', sans-serif;
+      font-size: 0.92rem;
+      padding: 12px 14px;
+      outline: none;
+      transition: border-color 0.2s, box-shadow 0.2s;
+      width: 100%;
+      -webkit-appearance: none;
+    }
+
+    select { cursor: pointer; }
+
+    input[type="text"]:focus,
+    input[type="email"]:focus,
+    select:focus {
+      border-color: var(--accent);
+      box-shadow: 0 0 0 3px rgba(224,92,42,.18);
+    }
+
+    input::placeholder { color: #555; }
+
+    .card-number-wrap {
+      position: relative;
+    }
+
+    .card-number-wrap input { padding-right: 60px; }
+
+    .card-number-wrap .card-icons {
+      position: absolute;
+      right: 12px;
+      top: 50%;
+      transform: translateY(-50%);
+      display: flex;
+      gap: 4px;
+    }
+
+    .card-number-wrap .card-icons img {
+      width: 28px;
+      height: 18px;
+      object-fit: contain;
+      opacity: .7;
+    }
+
+    /* ── PIX ── */
+    .pix-block {
+      display: none;
+      flex-direction: column;
+      align-items: center;
+      gap: 16px;
+      padding: 16px 0;
+    }
+
+    .pix-qr {
+      width: 160px;
+      height: 160px;
+      background: #fff;
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 10px;
+    }
+
+    .pix-qr svg { width: 100%; height: 100%; }
+
+    .pix-key-box {
+      width: 100%;
+      background: var(--input-bg);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 12px 14px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .pix-key-box span {
+      font-size: 0.82rem;
+      color: var(--muted);
+      word-break: break-all;
+    }
+
+    .pix-copy-btn {
+      font-size: 0.74rem;
+      font-weight: 700;
+      color: var(--accent-lt);
+      border: none;
+      background: transparent;
+      cursor: pointer;
+      white-space: nowrap;
+      text-decoration: underline;
+      text-decoration-color: transparent;
+    }
+
+    .pix-copy-btn:hover { text-decoration-color: var(--accent-lt); }
+
+    .pix-timer {
+      font-size: 0.8rem;
+      color: var(--muted);
+    }
+
+    .pix-timer strong { color: #f59e0b; }
+
+    /* ── BOLETO ── */
+    .boleto-block {
+      display: none;
+      flex-direction: column;
+      gap: 14px;
+      padding: 8px 0;
+    }
+
+    .boleto-info {
+      font-size: 0.85rem;
+      color: var(--muted);
+      line-height: 1.6;
+    }
+
+    .boleto-codigo {
+      background: var(--input-bg);
+      border: 1px dashed var(--border);
+      border-radius: 10px;
+      padding: 12px 14px;
+      font-size: 0.8rem;
+      color: var(--muted);
+      letter-spacing: 1px;
+      word-break: break-all;
+    }
+
+    /* ── TOGGLE SECTIONS ── */
+    #method-credito:checked ~ .form-card   { display: block; }
+    #method-pix:checked    ~ .pix-block    { display: flex; }
+    #method-boleto:checked ~ .boleto-block { display: flex; }
+
+    /* esconder os blocos alternativos por padrão */
+    .pix-block, .boleto-block { display: none; }
+
+    /* ── BOTÃO PAGAR ── */
+    .btn-pay {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      width: 100%;
+      padding: 15px;
+      margin-top: 8px;
+      border: none;
+      border-radius: 12px;
+      background: linear-gradient(135deg, #c94e22 0%, #e05c2a 50%, #f07d52 100%);
+      color: #fff;
+      font-family: 'Sora', sans-serif;
+      font-size: 1rem;
+      font-weight: 700;
+      cursor: pointer;
+      letter-spacing: .3px;
+      transition: opacity .2s, transform .1s;
+    }
+
+    .btn-pay:active { transform: scale(.98); }
+    .btn-pay:hover { opacity: .9; }
+
+    .btn-pay svg { width: 18px; height: 18px; }
+
+    .secure-note {
+      text-align: center;
+      font-size: 0.72rem;
+      color: var(--muted);
+      margin-top: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+    }
+
+    .secure-note svg { width: 12px; height: 12px; color: var(--success); }
+
+    /* ── RESUMO DO PEDIDO ── */
+    .order-summary .items { display: flex; flex-direction: column; gap: 14px; }
+
+    .item {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .item-thumb {
+      width: 48px;
+      height: 48px;
+      border-radius: 8px;
+      background: linear-gradient(135deg, #3a3a3a 0%, #2a2a2a 100%);
+      flex-shrink: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .item-thumb svg { width: 22px; height: 22px; color: var(--accent-lt); }
+
+    .item-info { flex: 1; }
+
+    .item-name {
+      font-size: 0.88rem;
+      font-weight: 600;
+      color: var(--text);
+    }
+
+    .item-desc {
+      font-size: 0.76rem;
+      color: var(--muted);
+      margin-top: 2px;
+    }
+
+    .item-price {
+      font-size: 0.9rem;
+      font-weight: 700;
+      color: var(--text);
+      white-space: nowrap;
+    }
+
+    .divider {
+      border: none;
+      border-top: 1px solid var(--border);
+      margin: 18px 0;
+    }
+
+    .summary-row {
+      display: flex;
+      justify-content: space-between;
+      font-size: 0.85rem;
+      color: var(--muted);
+      margin-bottom: 10px;
+    }
+
+    .summary-row.total {
+      color: var(--text);
+      font-weight: 700;
+      font-size: 1rem;
+      margin-top: 4px;
+    }
+
+    .summary-row.total .price-total { color: var(--accent-lt); }
+
+    .coupon-row {
+      display: flex;
+      gap: 8px;
+      margin-top: 4px;
+    }
+
+    .coupon-row input {
+      flex: 1;
+      padding: 10px 12px;
+      font-size: 0.82rem;
+    }
+
+    .coupon-btn {
+      padding: 10px 16px;
+      border-radius: 10px;
+      border: 1px solid var(--border);
+      background: var(--input-bg);
+      color: var(--accent-lt);
+      font-size: 0.82rem;
+      font-weight: 600;
+      cursor: pointer;
+      white-space: nowrap;
+      transition: background .2s;
+    }
+
+    .coupon-btn:hover { background: rgba(224,92,42,.1); }
+
+    /* ── FORM CARD toggle ── */
+    .form-card { display: none; }
+  </style>
+</head>
+<body>
+
+  <header>
+    <div class="logo">Shop<span>Pay</span></div>
+    <div class="badge">✓ Conexão Segura</div>
+  </header>
+
+  <div class="checkout">
+
+    <!-- ───── COLUNA ESQUERDA: PAGAMENTO ───── -->
+    <div>
+
+      <div class="card">
+        <div class="card-title">Forma de Pagamento</div>
+
+        <!-- Radios controlam qual bloco aparece via CSS :has() -->
+        <div class="methods">
+
+          <label class="method-btn">
+            <input type="radio" name="metodo" id="method-credito" checked>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" style="color:#e05c2a">
+              <rect x="1" y="4" width="22" height="16" rx="3"/><line x1="1" y1="10" x2="23" y2="10"/>
+            </svg>
+            <span>Cartão</span>
+          </label>
+
+          <label class="method-btn">
+            <input type="radio" name="metodo" id="method-pix">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" style="color:#22c55e">
+              <path d="M6.5 6.5l11 11M17.5 6.5l-11 11"/>
+              <rect x="3" y="3" width="7" height="7" rx="1"/>
+              <rect x="14" y="3" width="7" height="7" rx="1"/>
+              <rect x="3" y="14" width="7" height="7" rx="1"/>
+              <rect x="14" y="14" width="7" height="7" rx="1"/>
+            </svg>
+            <span>Pix</span>
+          </label>
+
+          <label class="method-btn">
+            <input type="radio" name="metodo" id="method-boleto">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" style="color:#f59e0b">
+              <rect x="2" y="4" width="20" height="16" rx="2"/>
+              <line x1="6" y1="9" x2="6" y2="15"/>
+              <line x1="9" y1="9" x2="9" y2="15"/>
+              <line x1="13" y1="9" x2="13" y2="15"/>
+              <line x1="16" y1="9" x2="16" y2="15"/>
+              <line x1="11" y1="9" x2="11" y2="12"/>
+            </svg>
+            <span>Boleto</span>
+          </label>
+
+        </div><!-- .methods -->
+
+        <!-- ══ CARTÃO DE CRÉDITO ══ -->
+        <div class="form-card" id="form-cartao">
+
+          <div class="form-group">
+            <label for="nome">Nome no Cartão</label>
+            <input type="text" id="nome" name="nome_cartao" placeholder="Como está impresso no cartão">
+          </div>
+
+          <div class="form-group">
+            <label for="numero">Número do Cartão</label>
+            <div class="card-number-wrap">
+              <input type="text" id="numero" name="numero_cartao" placeholder="0000 0000 0000 0000" maxlength="19">
+              <div class="card-icons">
+                <!-- Visa inline SVG simplificado -->
+                <svg viewBox="0 0 40 25" xmlns="http://www.w3.org/2000/svg" style="width:30px;height:20px">
+                  <rect width="40" height="25" rx="3" fill="#1A1F71"/>
+                  <text x="7" y="17" font-family="Arial" font-weight="bold" font-size="10" fill="#fff">VISA</text>
+                </svg>
+                <!-- Mastercard inline SVG simplificado -->
+                <svg viewBox="0 0 40 25" xmlns="http://www.w3.org/2000/svg" style="width:30px;height:20px">
+                  <rect width="40" height="25" rx="3" fill="#252525"/>
+                  <circle cx="15" cy="12" r="7" fill="#EB001B"/>
+                  <circle cx="25" cy="12" r="7" fill="#F79E1B"/>
+                  <path d="M20 6.8a7 7 0 010 10.4A7 7 0 0120 6.8z" fill="#FF5F00"/>
+                </svg>
+              </div>
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label for="validade">Validade</label>
+              <input type="text" id="validade" name="validade" placeholder="MM / AA" maxlength="7">
+            </div>
+            <div class="form-group">
+              <label for="cvv">CVV</label>
+              <input type="text" id="cvv" name="cvv" placeholder="•••" maxlength="4">
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="parcelas">Parcelamento</label>
+            <select id="parcelas" name="parcelas">
+              <option value="1">1× de R$ 497,00 (sem juros)</option>
+              <option value="2">2× de R$ 248,50 (sem juros)</option>
+              <option value="3">3× de R$ 165,67 (sem juros)</option>
+              <option value="6">6× de R$ 87,52 (com juros)</option>
+              <option value="12">12× de R$ 45,81 (com juros)</option>
+            </select>
+          </div>
+
+        </div><!-- #form-cartao -->
+
+        <!-- ══ PIX ══ -->
+        <div class="pix-block" id="pix-block">
+          <div class="pix-qr">
+            <!-- QR code simplificado em SVG -->
+            <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+              <rect x="5" y="5" width="35" height="35" rx="4" fill="none" stroke="#000" stroke-width="4"/>
+              <rect x="13" y="13" width="19" height="19" fill="#000"/>
+              <rect x="60" y="5" width="35" height="35" rx="4" fill="none" stroke="#000" stroke-width="4"/>
+              <rect x="68" y="13" width="19" height="19" fill="#000"/>
+              <rect x="5" y="60" width="35" height="35" rx="4" fill="none" stroke="#000" stroke-width="4"/>
+              <rect x="13" y="68" width="19" height="19" fill="#000"/>
+              <rect x="50" y="50" width="7" height="7" fill="#000"/>
+              <rect x="60" y="50" width="7" height="7" fill="#000"/>
+              <rect x="70" y="50" width="7" height="7" fill="#000"/>
+              <rect x="80" y="50" width="15" height="7" fill="#000"/>
+              <rect x="50" y="60" width="7" height="7" fill="#000"/>
+              <rect x="70" y="60" width="7" height="7" fill="#000"/>
+              <rect x="50" y="70" width="15" height="7" fill="#000"/>
+              <rect x="70" y="70" width="7" height="7" fill="#000"/>
+              <rect x="80" y="60" width="7" height="22" fill="#000"/>
+              <rect x="60" y="80" width="7" height="15" fill="#000"/>
+            </svg>
+          </div>
+
+          <p style="font-size:.82rem;color:var(--muted);text-align:center;line-height:1.5">
+            Escaneie o QR Code com o app do seu banco<br>ou use a chave Pix abaixo.
+          </p>
+
+          <div class="pix-key-box">
+            <span>00020126580014br.gov.bcb.pix0136a629534e-7f72-4f71-bfa8-8b9e9d2f3ea25204000053039865802BR5925ShopPay Pagamentos LTDA6009Sao Paulo62070503***6304</span>
+            <button class="pix-copy-btn" type="button">Copiar</button>
+          </div>
+
+          <p class="pix-timer">Expira em <strong>14:59</strong></p>
+        </div>
+
+        <!-- ══ BOLETO ══ -->
+        <div class="boleto-block" id="boleto-block">
+          <p class="boleto-info">
+            O boleto será gerado após a confirmação. O prazo de compensação é de até <strong style="color:var(--text)">3 dias úteis</strong>. Seu pedido é reservado por <strong style="color:var(--text)">24h</strong>.
+          </p>
+          <div class="form-group">
+            <label for="cpf-boleto">CPF do Pagador</label>
+            <input type="text" id="cpf-boleto" name="cpf_boleto" placeholder="000.000.000-00" maxlength="14">
+          </div>
+          <div class="boleto-codigo">
+            34191.09067 35641.532590 71965.570007 1 00000000049700
+          </div>
+          <button class="coupon-btn" type="button" style="align-self:flex-start">Copiar código</button>
+        </div>
+
+        <!-- ══ DADOS DO COMPRADOR (sempre visível) ══ -->
+        <hr class="divider" style="margin-top:24px">
+        <div class="card-title" style="margin-top:20px">Dados do Comprador</div>
+
+        <div class="form-group">
+          <label for="email">E-mail</label>
+          <input type="email" id="email" name="email" placeholder="seu@email.com">
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label for="cpf">CPF</label>
+            <input type="text" id="cpf" name="cpf" placeholder="000.000.000-00" maxlength="14">
+          </div>
+          <div class="form-group">
+            <label for="telefone">Telefone</label>
+            <input type="text" id="telefone" name="telefone" placeholder="(00) 00000-0000" maxlength="15">
+          </div>
+        </div>
+
+        <button class="btn-pay" type="button">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/>
+          </svg>
+          Finalizar Pagamento
+        </button>
+
+        <p class="secure-note">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+          </svg>
+          Pagamento 100% seguro e criptografado
+        </p>
+
+      </div><!-- .card -->
+    </div>
+
+    <!-- ───── COLUNA DIREITA: RESUMO ───── -->
+    <div>
+      <div class="card order-summary">
+        <div class="card-title">Resumo do Pedido</div>
+
+        <div class="items">
+          <div class="item">
+            <div class="item-thumb">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/>
+              </svg>
+            </div>
+            <div class="item-info">
+              <div class="item-name">Plano Pro Anual</div>
+              <div class="item-desc">Acesso completo · 12 meses</div>
+            </div>
+            <div class="item-price">R$ 397,00</div>
+          </div>
+
+          <div class="item">
+            <div class="item-thumb">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="12" cy="12" r="10"/><path d="M12 8v4l3 3"/>
+              </svg>
+            </div>
+            <div class="item-info">
+              <div class="item-name">Suporte Prioritário</div>
+              <div class="item-desc">Respostas em até 2h</div>
+            </div>
+            <div class="item-price">R$ 100,00</div>
+          </div>
+        </div>
+
+        <hr class="divider">
+
+        <div class="coupon-row">
+          <input type="text" placeholder="Cupom de desconto" name="cupom">
+          <button class="coupon-btn" type="button">Aplicar</button>
+        </div>
+
+        <hr class="divider">
+
+        <div class="summary-row">
+          <span>Subtotal</span>
+          <span>R$ 497,00</span>
+        </div>
+        <div class="summary-row">
+          <span>Desconto</span>
+          <span style="color:#22c55e">— R$ 0,00</span>
+        </div>
+        <div class="summary-row">
+          <span>Taxa</span>
+          <span>R$ 0,00</span>
+        </div>
+
+        <hr class="divider">
+
+        <div class="summary-row total">
+          <span>Total</span>
+          <span class="price-total">R$ 497,00</span>
+        </div>
+
+      </div>
+    </div>
+
+  </div><!-- .checkout -->
+
+  <!-- CSS :has() para mostrar o form correto conforme seleção -->
+  <style>
+    /* Cartão: painel form-card usa display:block via :has */
+    body:has(#method-credito:checked) #form-cartao  { display: block; }
+    body:has(#method-pix:checked)     #pix-block    { display: flex; }
+    body:has(#method-boleto:checked)  #boleto-block { display: flex; }
+
+    /* Esconde padrão quando cartão não selecionado */
+    #form-cartao { display: none; }
+  </style>
+
+</body>
+</html>
