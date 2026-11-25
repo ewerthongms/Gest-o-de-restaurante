@@ -1,0 +1,244 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: "Roboto", sans-serif;
+}
+
+#pai {
+    display: block;
+    background-color: #f0eeee;
+}
+
+/* === NAV === */
+#browser {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    position: sticky;
+    top: 0;
+    background-color: #131212;
+    height: 50px;
+    width: 100%;
+    padding: 0 12px;
+    z-index: 1001;
+}
+
+#menu-lateral {
+    width: 40px;
+    height: 36px;
+    flex-shrink: 0;
+}
+
+#researcher {
+    width: 100%;
+    height: 32px;
+    border: none;
+    border-radius: 4px;
+    text-align: center;
+    font-size: 15px;
+    padding: 0 8px;
+}
+
+#researcher::placeholder {
+    color: black;
+}
+
+/* === IMAGEM DO TOPO === */
+#div-img {
+    display: block;
+    position: relative;
+    width: 100%;
+    height: 180px;
+    background-color: #545454;
+    overflow: hidden;
+}
+
+#Logo-img {
+    display: block;
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    max-width: 90%;
+    height: auto;
+    box-shadow: 5px 5px 10px rgba(0,0,0,0.5);
+    border-radius: 5%;
+}
+
+/* === MENU CATEGORIAS === */
+#menu {
+    position: sticky;
+    top: 50px;
+    background-color: white;
+    z-index: 1000;
+    padding: 10px 0 12px;
+}
+
+.title1 {
+    text-align: center;
+    font-size: 20px;
+    margin-bottom: 8px;
+}
+.carrinho {
+    position: fixed;
+    bottom: 1.5rem;
+    right: 1.5rem;
+    z-index: 999;
+    background: #e05c2a;
+    border: none;
+    border-radius: 50px;
+    cursor: pointer;
+    display: none; /* escondido por padrão */
+    align-items: center;
+    padding: 0.6rem 1rem 0.6rem 0.75rem;
+    box-shadow: 0 4px 16px rgba(0,0,0,0.25);
+    transition: transform 0.2s, opacity 0.3s;
+    animation: slideUp 0.35s ease;
+}
+
+.carrinho.visivel {
+    display: flex;
+    height: 70px;
+    top: 700px;
+    background-color: #e05c2a;
+    width: 70px;
+    padding: 0px;
+}
+
+.carrinho:hover {
+    transform: scale(1.05);
+}
+
+.carrinho-img {
+    width: 58px;
+    height: 26px;
+    object-fit: contain;
+    filter: brightness(0) invert(1);
+}
+
+.carrinho-badge {
+    background: #fff;
+    color: #e05c2a;
+    font-family: 'Lato', sans-serif;
+    font-size: 0.82rem;
+    font-weight: 700;
+    border-radius: 50px;
+    padding: 2px 8px;
+    min-width: 22px;
+    text-align: center;
+}
+
+.carrinho-label {
+    color: #ffffff8e;
+    font-family: 'Lato', sans-serif;
+    font-size: 0.85rem;
+    font-weight: 700;
+    letter-spacing: 0.03em;
+}
+.carrinho.dragging {
+    transition: none !important;
+    transform: scale(1.05);
+    cursor: grabbing;}
+
+@keyframes slideUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to   { opacity: 1; transform: translateY(0); }
+}
+
+.buttons-div {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 6px;
+    padding: 0 10px;
+}
+
+.menu-buttons {
+    width: auto;
+    height: 30px;
+    padding: 0 12px;
+    background-color: white;
+    border: 1px solid #ddd;
+    border-radius: 20px;
+    color: #000;
+    font-size: 13px;
+    cursor: pointer;
+}
+
+.menu-buttons:active {
+    background-color: #131212;
+    color: #cfba43;
+}
+
+/* === CARDS === */
+#img-menu {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+    padding: 20px 16px;
+}
+
+.caixa {
+    width: 100%;
+    max-width: 360px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 16px;
+    background-color: #545454;
+    border: ridge;
+    border-radius: 16px;
+    box-shadow: 10px 15px 10px rgba(0,0,0,0.5);
+    color: #cfba43;
+    gap: 8px;
+}
+
+#comidas {
+    width: 100%;
+    height: 180px;
+    object-fit: cover;
+    border-radius: 12px;
+}
+
+.options-card {
+    border: none;
+    appearance: none;
+    color: #000;
+    cursor: pointer;
+    border-radius: 15px;
+    font-size: 13px;
+    width: 60%;
+    text-align: center;
+    background-color: #ffffff;
+    padding: 4px 8px;
+}
+
+/* === DESKTOP (acima de 768px) === */
+@media (max-width: 768px) {
+
+    #div-img { height: 300px; }
+
+    .title1 { font-size: 26px; }
+
+    #img-menu {
+        flex-direction: row;
+        flex-wrap: wrap;
+        justify-content: center;
+        align-items: flex-start;
+    }
+
+    .caixa {
+       display: flex;
+       
+
+    }
+
+    #comidas{
+        position: relative;
+        margin: 0 0 0 10px;
+        width: 50%;
+        height: 50%;
+    }
+}
